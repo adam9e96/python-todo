@@ -12,6 +12,22 @@ uv run todo delete 1
 uv run todo clear --done
 ```
 
+## 도움말 사용법
+
+`argparse` 기본 기능으로 전체 명령과 각 명령의 사용법을 바로 확인할 수 있습니다.
+
+```bash
+uv run todo --help
+uv run todo add --help
+uv run todo done --help
+uv run todo delete --help
+uv run todo clear --help
+```
+
+- `uv run todo --help`: 전체 명령 목록과 기본 사용법 출력
+- `uv run todo add --help`: `add` 명령의 인자 설명 출력
+- `uv run todo done --help`: `done` 명령의 `task_id` 사용법 출력
+
 ## 지원 기능
 
 - 할 일 추가
