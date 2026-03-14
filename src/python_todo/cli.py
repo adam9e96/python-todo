@@ -9,6 +9,7 @@ DATA_FILE = Path(".todo-data.json")
 
 
 def load_tasks(data_file: Path = DATA_FILE) -> list[dict[str, object]]:
+    # 데이터 파일이 없으면 비어 있는 목록부터 시작한다.
     if not data_file.exists():
         return []
 
@@ -23,6 +24,7 @@ def save_tasks(tasks: list[dict[str, object]], data_file: Path = DATA_FILE) -> N
 
 def add_task(title: str, data_file: Path = DATA_FILE) -> dict[str, object]:
     tasks = load_tasks(data_file)
+    # 삭제된 항목이 있어도 ID가 겹치지 않도록 최대값 기준으로 다음 번호를 만든다.
     next_id = max((int(task["id"]) for task in tasks), default=0) + 1
     task = {"id": next_id, "title": title, "done": False}
     tasks.append(task)
@@ -37,6 +39,7 @@ def list_tasks(data_file: Path = DATA_FILE) -> list[dict[str, object]]:
 def complete_task(task_id: int, data_file: Path = DATA_FILE) -> dict[str, object]:
     tasks = load_tasks(data_file)
 
+    # 순차 탐색으로 일치하는 할 일을 찾아 완료 상태로 바꾼다.
     for task in tasks:
         if task["id"] == task_id:
             task["done"] = True
@@ -51,6 +54,7 @@ def delete_task(task_id: int, data_file: Path = DATA_FILE) -> dict[str, object]:
 
     for task in tasks:
         if task["id"] == task_id:
+            # 삭제 대상만 제외한 새 목록을 저장해 파일 상태를 단순하게 유지한다.
             remaining_tasks = [item for item in tasks if item["id"] != task_id]
             save_tasks(remaining_tasks, data_file)
             return task
@@ -60,6 +64,7 @@ def delete_task(task_id: int, data_file: Path = DATA_FILE) -> dict[str, object]:
 
 def clear_completed(data_file: Path = DATA_FILE) -> int:
     tasks = load_tasks(data_file)
+    # 완료되지 않은 항목만 남겨 일괄 정리한다.
     remaining_tasks = [task for task in tasks if not task["done"]]
     removed_count = len(tasks) - len(remaining_tasks)
     save_tasks(remaining_tasks, data_file)
@@ -96,6 +101,7 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
+        # 파싱된 명령에 맞는 로직만 호출하고, CLI 출력은 여기서 일관되게 처리한다.
         if args.command == "add":
             task = add_task(args.title)
             print(f"[추가] {task['id']}. {task['title']}")

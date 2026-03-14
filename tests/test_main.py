@@ -13,6 +13,7 @@ from python_todo.cli import (
 
 class TodoCliTest(unittest.TestCase):
     def setUp(self) -> None:
+        # 테스트마다 독립적인 임시 데이터 파일을 사용해 실제 작업 파일과 분리한다.
         self.temp_dir = tempfile.TemporaryDirectory()
         self.data_file = Path(self.temp_dir.name) / "tasks.json"
 

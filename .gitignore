@@ -11,3 +11,4 @@ wheels/
 
 # App data
 .todo-data.json
+.idea
