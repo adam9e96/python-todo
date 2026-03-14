@@ -1,7 +1,20 @@
 [project]
 name = "python-todo"
 version = "0.1.0"
-description = "Add your description here"
+description = "간단한 CLI TODO 프로그램"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
+
+[project.scripts]
+todo = "python_todo.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/python_todo"]
